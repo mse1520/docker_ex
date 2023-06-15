@@ -7,7 +7,7 @@ Docker 의 기본적인 설정과 사용법 및 예제를 담은 프로젝트입
 설치 `OS`는 `Ubuntu`를 기준으로 기술 하였습니다.
 ```bash
 # uninstall docker
-sudo apt-get remove docker docker-engine docker.io containerd runc
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
 # install packages
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg
@@ -44,12 +44,16 @@ newgrp docker
 `docker container` 의 `로그`가 `무한히 증가`하는 것을 막기위한 설정입니다.
 1. `/etc/docker/daemon.json` 파일 내부에 다음의 내용을 작성합니다.
 2. `daemon.json` 파일이 `없을시` 생성해야 하며 `root계정 권한`으로 생성 및 수정이 가능합니다.
-```json
-{
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "10m",
-    "max-file": "3" 
-  }
-}
-```
+    ```json
+    {
+      "log-driver": "json-file",
+      "log-opts": {
+        "max-size": "10m",
+        "max-file": "3" 
+      }
+    }
+    ```
+3. 파일생성 후 docker를 재실행 합니다.
+    ```bash
+    sudo systemctl restart docker
+    ```
