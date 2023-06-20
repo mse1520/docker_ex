@@ -1,0 +1,41 @@
+services:
+  es01:
+    build: .
+    container_name: es01
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./es01-data:/usr/share/elasticsearch/data
+    environment:
+      node.name: es01
+      cluster.name: test-cluster
+      network.publish_host: 192.168.0.1
+      discovery.seed_hosts: 192.168.0.2
+      cluster.initial_master_nodes: es01
+      ELASTIC_PASSWORD: 12345a
+      xpack.security.enabled: true
+      xpack.security.http.ssl.enabled: true
+      xpack.security.http.ssl.key: es-certs/es01/es01.key
+      xpack.security.http.ssl.certificate: es-certs/es01/es01.crt
+      xpack.security.http.ssl.certificate_authorities: es-certs/ca/ca.crt
+      xpack.security.transport.ssl.enabled: true
+      xpack.security.transport.ssl.verification_mode: certificate
+      xpack.security.transport.ssl.key: es-certs/es01/es01.key
+      xpack.security.transport.ssl.certificate: es-certs/es01/es01.crt
+      xpack.security.transport.ssl.certificate_authorities: es-certs/ca/ca.crt
+      xpack.license.self_generated.type: basic
+  kib:
+    image: kibana:8.7.0
+    container_name: kib
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./es-certs:/usr/share/kibana/config/es-certs
+    environment:
+      ELASTICSEARCH_HOSTS: https://es01:9200
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: 12345a
+      ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: config/es-certs/ca/ca.crt
+    depends_on:
+      - es01

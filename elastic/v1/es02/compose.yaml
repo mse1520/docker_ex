@@ -1,0 +1,15 @@
+services:
+  es02:
+    image: elasticsearch:8.7.0
+    container_name: es02
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./es02-data:/usr/share/elasticsearch/data
+    environment:
+      node.name: es02
+      cluster.name: test-cluster
+      network.publish_host: 192.168.0.2
+      ELASTIC_PASSWORD: 12345a
+      ENROLLMENT_TOKEN: eyJ2ZXIiOiI4LjcuMCIsImFkciI6WyIxNzIuMzEuMS4xNTQ6OTIwMCJdLCJmZ3IiOiI3YTNiNjBjMDI0OGQzMTExMWJhYzRlODYxODYxZjEzNDFkMDE2MTg2MDliMzkyOTY1M2NiMGM2MTBlNWI0ZTkyIiwia2V5IjoiY3BjNTFJZ0J0UDNlTUo1ajhtMG06X1BtOUFPY1NRYjZGRkJtRF9wOWx1ZyJ9

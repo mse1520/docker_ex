@@ -1,0 +1,28 @@
+services:
+  es02:
+    image: elasticsearch:8.7.0
+    container_name: es02
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./es-certs:/usr/share/elasticsearch/config/es-certs
+      - ./es02-data:/usr/share/elasticsearch/data
+    environment:
+      node.name: es02
+      cluster.name: test-cluster
+      network.publish_host: 192.168.0.2
+      discovery.seed_hosts: 192.168.0.1
+      cluster.initial_master_nodes: es01
+      ELASTIC_PASSWORD: 12345a
+      xpack.security.enabled: true
+      xpack.security.http.ssl.enabled: true
+      xpack.security.http.ssl.key: es-certs/es02/es02.key
+      xpack.security.http.ssl.certificate: es-certs/es02/es02.crt
+      xpack.security.http.ssl.certificate_authorities: es-certs/ca/ca.crt
+      xpack.security.transport.ssl.enabled: true
+      xpack.security.transport.ssl.verification_mode: certificate
+      xpack.security.transport.ssl.key: es-certs/es02/es02.key
+      xpack.security.transport.ssl.certificate: es-certs/es02/es02.crt
+      xpack.security.transport.ssl.certificate_authorities: es-certs/ca/ca.crt
+      xpack.license.self_generated.type: basic
