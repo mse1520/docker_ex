@@ -23,8 +23,10 @@ v1은 차세대 방식을 이용한 직관적이고 간단한 방법입니다.
     ```bash
     # node
     docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s node
+    
     # kibana
     docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+    docker exec -it kib /usr/share/kibana/bin/kibana-verification-code
     ```
 3. es02 폴더의 내용을 참고하여 발급받은 키를 등록하고 실행합니다.
 
