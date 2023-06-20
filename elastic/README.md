@@ -3,6 +3,13 @@
 - 이 글의 설명은 `8.7.0` 버전으로 기술합니다.
 - 이 글은 `Multi Node`를 기본으로 설명합니다.
 
+## 초기 설정
+Elasticsearch를 사용하기 위해서 기본적으로 설정해줘야 할 서버 설정이 있습니다.
+```bash
+sudo echo "vm.max_map_count=262144" >> /etc/sysctl.conf
+sudo sysctl -p /etc/sysctl.conf 
+```
+
 ## 버전 선택 요령
 Elasticsearch 는 버전마다 기능과 사용법이 상이하며,  
 Spring과 같이 사용하기 위해 정확한 버전을 선택해야합니다.
