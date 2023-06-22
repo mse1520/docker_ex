@@ -1,4 +1,5 @@
-FROM elasticsearch:8.7.0
+ARG ELK_VERSION
+FROM elasticsearch:${ELK_VERSION}
 RUN mkdir config/es-certs
 COPY instances.yml config/es-certs
 RUN bin/elasticsearch-certutil ca --silent --pem -out config/es-certs/ca.zip

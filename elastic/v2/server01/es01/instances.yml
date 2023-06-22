@@ -5,6 +5,7 @@ instances:
       - localhost
     ip:
       - 192.168.0.1
+      - 10.10.10.10
   - name: es02
     dns:
       - es02

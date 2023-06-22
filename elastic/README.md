@@ -35,6 +35,7 @@ v2는 보안 인증 파일을 직접 생성하고 실행하는 방법입니다.
 1. es01 폴더의 내용을 토대로 Docker를 실행합니다.
 2. Dockerfile의 내용을 토대로 생성된 `es-cert 폴더`를 `복사`합니다.
     ```bash
+    chmod -R a+x bin
     docker cp es01:/usr/share/elasticsearch/config/es-certs .
     ```
 3. Dockerfile에서 보안 인증 파일을 생성하므로 `Docker`를 `재실행` 합니다.

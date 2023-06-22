@@ -1,0 +1,5 @@
+#!/bin/bash
+PARENT_PATH=$(cd $(dirname $0)/.. && pwd)
+mkdir $PARENT_PATH/es01/data
+mkdir -p $PARENT_PATH/kib/data
+mkdir $PARENT_PATH/es-certs

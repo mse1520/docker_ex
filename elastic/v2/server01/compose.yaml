@@ -1,19 +1,22 @@
 services:
   es01:
-    build: .
+    build:
+      context: ./es01
+      args:
+        ELK_VERSION: ${ELK_VERSION}
     container_name: es01
     ports:
       - "9200:9200"
       - "9300:9300"
     volumes:
-      - ./es01-data:/usr/share/elasticsearch/data
+      - ./es01/data:/usr/share/elasticsearch/data
     environment:
       node.name: es01
       cluster.name: test-cluster
-      network.publish_host: 192.168.0.1
-      discovery.seed_hosts: 192.168.0.2
+      network.publish_host: 192.168.0.1,10.10.10.10
+      #discovery.seed_hosts: 192.168.0.2
       cluster.initial_master_nodes: es01
-      ELASTIC_PASSWORD: 12345a
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       xpack.security.enabled: true
       xpack.security.http.ssl.enabled: true
       xpack.security.http.ssl.key: es-certs/es01/es01.key
@@ -26,16 +29,34 @@ services:
       xpack.security.transport.ssl.certificate_authorities: es-certs/ca/ca.crt
       xpack.license.self_generated.type: basic
   kib:
-    image: kibana:8.7.0
+    image: kibana:${ELK_VERSION}
     container_name: kib
     ports:
       - "5601:5601"
     volumes:
+      - ./kib/data:/usr/share/kibana/data
       - ./es-certs:/usr/share/kibana/config/es-certs
     environment:
+      SERVER_PUBLICBASEURL: http://kib:5601
       ELASTICSEARCH_HOSTS: https://es01:9200
       ELASTICSEARCH_USERNAME: kibana_system
-      ELASTICSEARCH_PASSWORD: 12345a
+      ELASTICSEARCH_PASSWORD: ${KIBANA_PASSWORD}
       ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: config/es-certs/ca/ca.crt
     depends_on:
       - es01
+  logstash:
+    image: logstash:${ELK_VERSION}
+    container_name: logstash
+    ports:
+      - "4000:4000"
+    volumes:
+      #- ./logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./es-certs:/usr/share/logstash/config/es-certs
+    environment:
+      CONFIG_RELOAD_AUTOMATIC: true
+      XPACK_MONITORING_ENABLED: true
+      XPACK_MONITORING_ELASTICSEARCH_HOSTS: https://es01:9200
+      XPACK_MONITORING_ELASTICSEARCH_USERNAME: logstash_system
+      XPACK_MONITORING_ELASTICSEARCH_PASSWORD: ${LOGSTASH_PASSWORD}
+      XPACK_MONITORING_ELASTICSEARCH_SSL_CERTIFICATE_AUTHORITY: config/es-certs/ca/ca.crt
