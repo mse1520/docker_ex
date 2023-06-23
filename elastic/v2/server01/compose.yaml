@@ -12,7 +12,7 @@ services:
       - ./es01/data:/usr/share/elasticsearch/data
     environment:
       node.name: es01
-      cluster.name: test-cluster
+      cluster.name: ${CLUSTER_NAME}
       network.publish_host: 192.168.0.1,10.10.10.10
       #discovery.seed_hosts: 192.168.0.2
       cluster.initial_master_nodes: es01

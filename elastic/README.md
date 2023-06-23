@@ -31,20 +31,37 @@ v1은 차세대 방식을 이용한 직관적이고 간단한 방법입니다.
 3. es02 폴더의 내용을 참고하여 발급받은 키를 등록하고 실행합니다.
 
 ## v2
-v2는 보안 인증 파일을 직접 생성하고 실행하는 방법입니다.
-1. es01 폴더의 내용을 토대로 Docker를 실행합니다.
-2. Dockerfile의 내용을 토대로 생성된 `es-cert 폴더`를 `복사`합니다.
+v2는 보안 인증 파일을 직접 생성하고 실행하는 방법입니다.  
+기본적인 초기 셋팅을 쉘스크립트를 이용해서 자동화 하였습니다.  
+자세한 내용을 알고싶으시면 쉘스크립트내용을 분석해보셔도 좋을것 같습니다.
+1. 초기 `실행파일 설정`을 위해 다음의 명령어를 실행합니다.
     ```bash
     chmod -R a+x bin
-    docker cp es01:/usr/share/elasticsearch/config/es-certs .
     ```
-3. Dockerfile에서 보안 인증 파일을 생성하므로 `Docker`를 `재실행` 합니다.
+2. `초기 서버설정`을 위해 다음의 명령어를 실행합니다.
+    ```bash
+    ./bin/init
+    ```
+3. 기초 `폴더 생성` 명령어를 실행합니다.
+    ```bash
+    ./bin/dir
+    ```
+4. server01 `Docerfile`에서 `보안 인증 파일`을 `생성`하므로 `한번` 실행합니다.
+    ```bash
+    docker compose up -d
+    ```
+5. `인증 파일`을 `복사`합니다.
+    ```bash
+    ./bin/cert
+    ```
+6. `Docker container`를 `다시 생성`합니다.
     ```bash
     docker compose down
     docker compose up -d
     ```
-3. es01 노드가 실행되면 `kibana 비밀번호`를 설정해줍니다.
+7. es01 노드가 실행되면 `kibana`와 `logstash` `비밀번호`를 설정해줍니다.  
+**노드가 완전히 실행되는 것을 확인후 실행하여야 합니다.**
     ```bash
-    curl -s -X POST --cacert es-certs/ca/ca.crt -u "elastic:12345a" -H "Content-Type: application/json" https://localhost:9200/_security/user/kibana_system/_password -d '{ "password": "12345a" }'
+    ./bin/user
     ```
-4. es02 폴더의 내옹을 토대로 Docker를 실행합니다.
+8. server02 폴더의 내옹을 토대로 `추가 노드` Docker container를 실행합니다.
