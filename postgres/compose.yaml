@@ -4,6 +4,7 @@ services:
     container_name: postgres
     restart: always
     environment:
+      TZ: Asia/Seoul
       POSTGRES_DB: test
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234

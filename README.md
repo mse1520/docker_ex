@@ -1,6 +1,7 @@
 # Docker example
 Docker 의 기본적인 설정과 사용법 및 예제를 담은 프로젝트입니다.
 - [docker docs](https://docs.docker.com/)
+- [command](./docs/command.md)
 - [elasticsearch](./elastic/README.md)
 
 ## 설치 및 초기 설정
