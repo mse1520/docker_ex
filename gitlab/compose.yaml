@@ -5,10 +5,11 @@ services:
     hostname: 192.168.0.1
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://192.168.0.1'
+        external_url 'http://192.168.0.1:3001'
     ports:
       - '3000:22'
-      - '3001:80'
+      # - '3001:80'
+      - '3001:3001'
       - '3002:443'
     volumes:
       - ./config:/etc/gitlab

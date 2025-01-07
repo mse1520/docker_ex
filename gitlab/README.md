@@ -5,6 +5,6 @@ gitlab 서버를 도커로 구축하는 방법입니다.
 
 ## 초기 설정
 ```bash
-# root 계정 초기 패스워드 설정
-docker exec -it gitlab gitlab-rake "gitlab:password:reset[root]"
+# 계정 초기 비밀번호
+docker exec -it gitlab cat /etc/gitlab/initial_root_password
 ```
