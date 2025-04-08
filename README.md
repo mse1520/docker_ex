@@ -4,6 +4,7 @@ Docker 의 기본적인 설정과 사용법 및 예제를 담은 프로젝트입
 - [command](./docs/command.md)
 - [elasticsearch](./elastic/README.md)
 - [gitlab](./gitlab/README.md)
+- [office-converter](./office-converter/README.md)
 
 ## 설치 및 초기 설정
 ### 설치
@@ -60,3 +61,11 @@ newgrp docker
     ```bash
     sudo systemctl restart docker
     ```
+
+## 그외
+
+### Dockerfile
+```Dockerfile
+# 실행한 컨테이너를 중단하지 않고 계속 실행하기 위한 방법.
+CMD tail -f /dev/null
+```

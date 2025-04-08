@@ -1,0 +1,8 @@
+services:
+  server:
+    build: ./server
+    container_name: office-converter
+    restart: always
+    volumes:
+      - ./server/input:/input
+      - ./server/output:/output
